@@ -6,3 +6,11 @@ class Expense(models.Model):
     amount = models.DecimalField(max_digits=12, decimal_places=2)
     title = models.CharField(max_length=200, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
+
+    def __str__(self):
+        return "[#{}] ${} @{} {}".format(
+            self.id,
+            self.amount,
+            self.date,
+            self.title or "---"
+        )
