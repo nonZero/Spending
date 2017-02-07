@@ -22,7 +22,7 @@ class Command(BaseCommand):
                     random.randint(1, 30)
                 ),
                 amount="{:.2f}".format(random.uniform(1, 100)),
-                title=silly.title(),
+                title="{} {}".format(silly.adjective(), silly.noun()).title(),
                 description=silly.paragraph(length=random.randint(1, 3)),
             )
             o.full_clean()
