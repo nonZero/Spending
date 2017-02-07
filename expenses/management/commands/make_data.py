@@ -1,5 +1,6 @@
 import random
 
+import silly
 from django.core.management.base import BaseCommand
 
 from expenses import models
@@ -15,11 +16,14 @@ class Command(BaseCommand):
         n = options['n']
         for i in range(n):
             o = models.Expense(
-                date="2012-{:02}-{}".format(random.randint(1, 12),
-                                            random.randint(1, 30)),
+                date="201{}-{:02}-{}".format(
+                    random.randint(0, 9),
+                    random.randint(1, 12),
+                    random.randint(1, 30)
+                ),
                 amount="{:.2f}".format(random.uniform(1, 100)),
-                title="Title #{}".format(i + 1),
-                description="Desc " * i,
+                title=silly.title(),
+                description=silly.paragraph(length=random.randint(1, 3)),
             )
             o.full_clean()
             o.save()

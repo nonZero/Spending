@@ -1,7 +1,9 @@
 appdirs==1.4.0
+cmd2==0.6.9
 decorator==4.0.11
 Django==1.10.5
 django-extensions==1.7.6
+inflect==0.2.5
 ipython==5.2.2
 ipython-genutils==0.1.0
 packaging==16.8
@@ -11,6 +13,7 @@ prompt-toolkit==1.0.13
 ptyprocess==0.5.1
 Pygments==2.2.0
 pyparsing==2.1.10
+silly==1.1.0
 simplegeneric==0.8.1
 six==1.10.0
 traitlets==4.3.1

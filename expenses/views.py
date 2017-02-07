@@ -6,7 +6,6 @@ from . import models
 def list(request):
     qs = models.Expense.objects.all()  # !!!!! QuerySet
     return render(request, "expenses/expense_list.html", {
-        'foo': 706,
         'objects': qs,
     })
 
