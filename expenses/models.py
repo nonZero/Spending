@@ -1,6 +1,9 @@
+from __future__ import unicode_literals
 from django.db import models
+from django.utils.six import python_2_unicode_compatible
 
 
+@python_2_unicode_compatible
 class Expense(models.Model):
     date = models.DateField()
     amount = models.DecimalField(max_digits=12, decimal_places=2)
