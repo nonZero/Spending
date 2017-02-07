@@ -13,9 +13,30 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
+import random
+
 from django.conf.urls import url
 from django.contrib import admin
+from django.http import HttpResponse
+
+
+# view functions
+def hello(request):
+    return HttpResponse("hello!<b>hello!")
+
+
+def boom(request):
+    assert False, "BOOM!!!!"
+
+
+def magic(request):
+    html = "The magic number is: {}!!!".format(random.randint(1, 10))
+    return HttpResponse(html)
+
 
 urlpatterns = [
+    url(r"^$", hello),
+    url(r"^boom/$", boom),
+    url(r"^magic/$", magic),
     url(r'^admin/', admin.site.urls),
 ]
