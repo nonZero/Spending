@@ -1,7 +1,10 @@
+<h3>
+    {{ objects.count }} expenses (total: {{ total }})
+</h3>
 <ul>
     {% for object in objects %}
         <li>
-            {{ object.date }}: {{ object.amount }} {{ object.title }}
+            <a href="{% url "expenses:detail" object.id %}">{{ object.date }}: {{ object.amount }} {{ object.title }}</a>
         </li>
     {% endfor %}
 </ul>

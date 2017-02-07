@@ -1,6 +1,7 @@
 from django.contrib import admin
 from . import models
 
+
 class ExpenseAdmin(admin.ModelAdmin):
     list_display = (
         'id',
@@ -16,5 +17,6 @@ class ExpenseAdmin(admin.ModelAdmin):
         'description',
     )
     date_hierarchy = 'date'
+
 
 admin.site.register(models.Expense, ExpenseAdmin)

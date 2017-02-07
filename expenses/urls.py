@@ -5,5 +5,6 @@ from . import views
 app_name = "expenses"
 
 urlpatterns = [
-    url(r'^$', views.list),
+    url(r'^$', views.list, name="list"),
+    url(r'^([0-9]+)/$', views.detail, name="detail"),
 ]
