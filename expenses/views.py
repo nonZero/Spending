@@ -1,8 +1,7 @@
-from django import forms
-from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
+from expenses.forms import ExpenseForm, FeebackForm
 from . import models
 
 
@@ -23,12 +22,6 @@ def detail(request, id):
     })
 
 
-class ExpenseForm(forms.ModelForm):
-    class Meta:
-        model = models.Expense
-        fields = "__all__"
-
-
 def create(request):
     if request.method == "POST":
         form = ExpenseForm(request.POST)
@@ -39,22 +32,8 @@ def create(request):
         form = ExpenseForm()
 
     return render(request, "expenses/expense_form.html", {
-        'form' : form,
+        'form': form,
     })
-
-
-SUBJECTS = (
-    ("error", "Error in site"),
-    ("attention", "I need attention"),
-    ("other", "Other"),
-)
-
-
-class FeebackForm(forms.Form):
-    email = forms.EmailField()
-    subject = forms.CharField()
-    description = forms.CharField(widget=forms.Textarea())
-    phone = forms.CharField(required=False)
 
 
 def send_feedback(request):
