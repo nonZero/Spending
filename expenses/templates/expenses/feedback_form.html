@@ -1,0 +1,13 @@
+<h1>
+    Send Feedback
+</h1>
+
+<form method="post" novalidate="1">
+    {% csrf_token %}
+    <ul>
+        {{ form.as_ul }}
+        <li>
+            <button>Send Feedback</button>
+        </li>
+    </ul>
+</form>

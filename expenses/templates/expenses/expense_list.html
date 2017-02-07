@@ -1,6 +1,10 @@
 <h3>
     {{ objects.count }} expenses (total: {{ total }})
 </h3>
+<p>
+    <a href="{% url "expenses:create" %}">Add Expense...</a>
+</p>
+
 <ul>
     {% for object in objects %}
         <li>
@@ -8,3 +12,9 @@
         </li>
     {% endfor %}
 </ul>
+
+<hr>
+
+<p>
+    <a href="{% url "expenses:feedback" %}">Send feedback...</a>
+</p>
