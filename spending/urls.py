@@ -17,7 +17,7 @@ import random
 
 from django.conf.urls import url
 from django.contrib import admin
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 
 
 # view functions
@@ -54,12 +54,18 @@ def add(request, x, y):
     return HttpResponse("{} + {} = {}".format(x, y, x + y))
 
 
+def add_json(request, x, y):
+    d = {"result": int(x) + int(y)}
+    return JsonResponse(d)
+
+
 # /add/10/20/  ==>  10 + 20 = **30**
 
 
 urlpatterns = [
     url(r"^$", hello),
     url(r"^add/(\d+)/(\d+)/$", add),
+    url(r"^add/(\d+)/(\d+)/json/$", add_json),
     url(r"^hello/([a-z]+)/$", hello_name, kwargs={'lucky': 22}),
     url(r"^hello/([a-z]+)/([0-9]+)/$", hello_name),
     url(r"^hello/(?P<lucky>[0-9]+)/(?P<name>[a-z]+)/$", hello_name),
