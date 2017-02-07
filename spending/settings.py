@@ -38,6 +38,9 @@ INSTALLED_APPS = [
 
     # 3rd party
     'django_extensions',
+
+    # my apps
+    'expenses',
 ]
 # Application definition
 
