@@ -41,7 +41,7 @@ Or, to force creation of a python 3 env on linux:
 
 Or, to force creation of a python 3 env on windows:
 
-    > mkvirtualenv spendingenv -p $(which python3)
+    > mkvirtualenv spendingenv -p c:\the\path\to\your\python3\python.exe
 
 To reactivate an exisiting env use:
 
@@ -66,7 +66,7 @@ Create a db and run all exisiting migrations:
 
 Create a superuser (for admin access):
 
-    python manage.py migrate
+    python manage.py createsuperuser
 
 Create sample data (see [make_data.py](./expenses/management/commands/make_data.py))
 
