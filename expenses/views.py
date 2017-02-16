@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.http.response import HttpResponseNotFound, Http404
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
@@ -7,6 +8,7 @@ from expenses.forms import ExpenseForm, FeebackForm, CommentForm
 from . import models
 
 
+@login_required
 def list_months(request):
     qs = models.Expense.objects.dates('date', 'month').order_by('-date')
     return render(request, "expenses/expense_months.html", {
@@ -14,6 +16,7 @@ def list_months(request):
     })
 
 
+@login_required
 def list(request, year=None, month=None):
     qs = models.Expense.objects.all()
     if year:
@@ -30,6 +33,7 @@ def list(request, year=None, month=None):
     })
 
 
+@login_required
 def detail(request, id):
     o = get_object_or_404(models.Expense, id=id)
     if request.method == "POST":
@@ -52,6 +56,7 @@ def detail(request, id):
     })
 
 
+@login_required
 def create(request):
     if request.method == "POST":
         form = ExpenseForm(request.POST)
@@ -65,7 +70,7 @@ def create(request):
         'form': form,
     })
 
-
+@login_required
 def update(request, id):
     o = get_object_or_404(models.Expense, id=id)
     if request.method == "POST":
@@ -80,7 +85,7 @@ def update(request, id):
         'form': form,
     })
 
-
+@login_required
 def delete(request, id):
     o = get_object_or_404(models.Expense, id=id)
 
