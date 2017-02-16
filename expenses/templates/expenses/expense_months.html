@@ -10,7 +10,7 @@
         Expenses By Month
     </h1>
 
-    <ul>
+    <ul class="boxes">
         {% for date in dates %}
             <li>
                 <a href="{% url "expenses:month" date.year date.month %}">

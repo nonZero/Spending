@@ -1,13 +1,38 @@
 <html>
 <head>
     <title>{% block title %}Home{% endblock %} - Spending.COM !!!!</title>
+
+    <style>
+
+        .beautiful {
+            background: cyan;
+        }
+
+        .pretty {
+            font-family: "Comic Sans MS";
+        }
+
+        #main {
+            border: 5px solid purple;
+        }
+
+        .boxes > li {
+            border: 2px solid blue;
+            margin-bottom: 3px;
+            padding: 3px;
+        }
+
+    </style>
+
+
 </head>
 <body>
 
-<header>
+<header class="beautiful">
     <h1>
         Spending.COM!!!
     </h1>
+    <p class="pretty"><i>The best site ever!!!</i></p>
 </header>
 <nav>
     <a href="{% url "expenses:list" %}">Home</a>
@@ -17,13 +42,16 @@
     <a href="{% url "expenses:create" %}">Add Expense...</a>
 </nav>
 
-<div>
+<div id="main">
     {% block content %}
     MY CONTENT SHOULD GO HERE
     {% endblock %}
 </div>
 
 <hr/>
-&copy; Copyright 2017
+
+<div class="pretty beautiful">
+    &copy; Copyright 2017
+</div>
 </body>
 </html>
