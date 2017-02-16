@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.http.response import HttpResponseNotFound, Http404
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
@@ -36,7 +37,11 @@ def detail(request, id):
         if form.is_valid():
             form.instance.expense = o
             comment = form.save()
+            messages.success(request, "Comment added successfully.")
             return redirect(o)
+
+        messages.error(request, "Please fix errors in form.")
+
     else:
         form = CommentForm()
 

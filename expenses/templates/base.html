@@ -1,4 +1,4 @@
-{% load staticfiles %}
+{% load staticfiles bootstrap3 %}
 <html>
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -41,6 +41,9 @@
     </nav>
 
     <div id="main">
+
+        {% bootstrap_messages %}
+
         {% block content %}
             MY CONTENT SHOULD GO HERE
         {% endblock %}
