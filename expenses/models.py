@@ -22,3 +22,10 @@ class Expense(models.Model):
 
     def get_absolute_url(self):
         return reverse("expenses:detail", args=(self.id,))
+
+
+class Comment(models.Model):
+    expense = models.ForeignKey(Expense, on_delete=models.CASCADE,
+                                related_name="comments")
+    added_at = models.DateTimeField(auto_now_add=True)
+    content = models.TextField()

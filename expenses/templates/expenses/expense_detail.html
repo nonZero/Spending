@@ -22,8 +22,17 @@
             <div class="thumbnail">
                 <img src="{{ object.picture.url }}" alt="">
             </div>
-            </li>
         {% endif %}
-
     </ul>
+
+    <ul class="list-group">
+        {% for comment in object.comments.all %}
+            <li class="list-group-item">
+                <p><i>@{{ comment.added_at }}:</i></p>
+                {{ comment.content|linebreaks }}
+            </li>
+        {% endfor %}
+    </ul>
+
+
 {% endblock %}

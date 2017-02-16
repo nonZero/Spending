@@ -37,3 +37,7 @@ class Command(BaseCommand):
             )
             o.full_clean()
             o.save()
+            for i in range(random.randint(0, 5)):
+                o.comments.create(
+                    content=silly.paragraph(length=random.randint(1, 4)),
+                )
