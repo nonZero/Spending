@@ -1,9 +1,10 @@
 {% extends "base.html" %}
-
+{% load bootstrap3 %}
 {% block content %}
 
 
-    <a class="btn btn-primary pull-right" href="{% url "expenses:update" object.id %}"><span
+    <a class="btn btn-primary pull-right"
+       href="{% url "expenses:update" object.id %}"><span
             class="glyphicon glyphicon-pencil"></span> Edit</a>
     <h1>
 
@@ -39,10 +40,17 @@
                 {{ comment.content|linebreaks }}
             </li>
         {% endfor %}
-            <li class="list-group-item">
-                <a class="btn btn-primary btn-block" href="{% url "expenses:create_comment" %}"><span
-                class="glyphicon glyphicon-paper"></span> Create Comment</a>
-            </li>
+        <li class="list-group-item">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% bootstrap_form form %}
+                {% buttons %}
+                    <button type="submit" class="btn btn-primary">
+                        {% bootstrap_icon "save" %} Add
+                    </button>
+                {% endbuttons %}
+            </form>
+        </li>
 
     </ul>
 

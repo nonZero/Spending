@@ -15,6 +15,4 @@ urlpatterns = [
     url(r'^([0-9]+)/edit/$', views.update, name="update"),
     url(r'^feedback/$', views.send_feedback, name="feedback"),
 
-    url(r'^create-comment/$', views.create_comment, name="create_comment"),
-
 ]

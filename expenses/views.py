@@ -31,12 +31,18 @@ def list(request, year=None, month=None):
 
 def detail(request, id):
     o = get_object_or_404(models.Expense, id=id)
-    # try:
-    #     o = models.Expense.objects.get(id=id)
-    # except models.Expense.DoesNotExist:
-    #     raise Http404()
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            form.instance.expense = o
+            comment = form.save()
+            return redirect(o)
+    else:
+        form = CommentForm()
+
     return render(request, "expenses/expense_detail.html", {
         'object': o,
+        'form': form,
     })
 
 
@@ -65,20 +71,6 @@ def update(request, id):
         form = ExpenseForm(instance=o)
 
     return render(request, "expenses/expense_form.html", {
-        'form': form,
-    })
-
-
-def create_comment(request):
-    if request.method == "POST":
-        form = CommentForm(request.POST)
-        if form.is_valid():
-            o = form.save()
-            return redirect(o.expense)
-    else:
-        form = CommentForm()
-
-    return render(request, "expenses/comment_form.html", {
         'form': form,
     })
 
