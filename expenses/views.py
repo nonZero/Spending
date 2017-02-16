@@ -5,8 +5,19 @@ from expenses.forms import ExpenseForm, FeebackForm
 from . import models
 
 
-def list(request):
+def list_months(request):
+    qs = models.Expense.objects.dates('date', 'month').order_by('-date')
+    return render(request, "expenses/expense_months.html", {
+        'dates': qs,
+    })
+
+
+def list(request, year=None, month=None):
     qs = models.Expense.objects.all()
+    if year:
+        qs = qs.filter(date__year=year)
+    if month:
+        qs = qs.filter(date__month=month)
     total = sum(
         o.amount for o in qs)  # there is a better way to do this (aggregation)
     return render(request, "expenses/expense_list.html", {
