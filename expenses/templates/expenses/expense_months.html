@@ -10,9 +10,9 @@
         Expenses By Month
     </h1>
 
-    <ul class="boxes">
+    <ul class="list-group">
         {% for date in dates %}
-            <li>
+            <li class="list-group-item">
                 <a href="{% url "expenses:month" date.year date.month %}">
                     {{ date.year }}-{{ date.month }}
                 </a>
