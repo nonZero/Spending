@@ -20,6 +20,13 @@ def get_random_date():
             pass
 
 
+def get_paragraph(a, b):
+    """
+    Produces a paragraph of text with between a and b sentences.
+    """
+    return "\n".join([silly.sentence() for x in range(random.randint(a, b))])
+
+
 class Command(BaseCommand):
     help = "Adds demo data to database."
 
@@ -33,11 +40,11 @@ class Command(BaseCommand):
                 date=get_random_date(),
                 amount="{:.2f}".format(random.uniform(1, 100)),
                 title="{} {}".format(silly.adjective(), silly.noun()).title(),
-                description=silly.paragraph(length=random.randint(1, 3)),
+                description=get_paragraph(1, 3),
             )
             o.full_clean()
             o.save()
             for i in range(random.randint(0, 5)):
                 o.comments.create(
-                    content=silly.paragraph(length=random.randint(1, 4)),
+                    content=get_paragraph(1, 4),
                 )
