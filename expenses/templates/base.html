@@ -16,7 +16,7 @@
         <div class="container-fluid">
             <div class="navbar-header">
                 <a class="navbar-brand" href="{% url "expenses:list" %}">
-                    💰  Spending.COM!!!
+                    💰 Spending.COM!!!
                 </a>
             </div>
 
@@ -26,15 +26,37 @@
                 <ul class="nav navbar-nav">
                     <li><a href="{% url "expenses:months" %}">By Month</a>
                     </li>
-                    <li><a href="{% url "expenses:create" %}">Add Expense...</a></li>
+                    <li><a href="{% url "expenses:create" %}">Add
+                        Expense...</a></li>
+                    <li><a href="{% url "expenses:create" %}">Add
+                        Expense...</a></li>
+
+                    {% if user.id %}
+                        <li>
+                        <span class="navbar-text">
+                            {{ user }}
+                        </span>
+                        </li>
+                        <li>
+                            <a href="{% url "logout" %}">Logout</a>
+                        </li>
+                    {% else %}
+                        <li>
+                            <a href="{% url "login" %}">Login</a>
+                        </li>
+                    {% endif %}
+
+                    </li>
                 </ul>
-                <form class="navbar-form navbar-left">
+                <form class="navbar-form navbar-right">
                     <div class="form-group">
                         <input type="text" class="form-control"
                                placeholder="Search">
                     </div>
                     <button type="submit" class="btn btn-default">Submit
                     </button>
+
+
                 </form>
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
