@@ -38,7 +38,8 @@ def detail(request, id):
             form.instance.expense = o
             comment = form.save()
             messages.success(request, "Comment added successfully.")
-            return redirect(o)
+            return redirect(
+                "{}#comment-{}".format(o.get_absolute_url(), comment.id))
 
         messages.error(request, "Please fix errors in form.")
 
