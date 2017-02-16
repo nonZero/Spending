@@ -1,4 +1,6 @@
 from __future__ import unicode_literals
+
+from django.conf import settings
 from django.db import models
 from django.urls import reverse
 from django.utils.six import python_2_unicode_compatible
@@ -6,6 +8,8 @@ from django.utils.six import python_2_unicode_compatible
 
 @python_2_unicode_compatible
 class Expense(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='expenses',
+                             on_delete=models.CASCADE)
     date = models.DateField()
     amount = models.DecimalField(max_digits=12, decimal_places=2)
     title = models.CharField(max_length=200, null=True, blank=True)

@@ -6,7 +6,9 @@ from expenses import models
 class ExpenseForm(forms.ModelForm):
     class Meta:
         model = models.Expense
-        fields = "__all__"
+        exclude = (
+            'user',
+        )
 
 
 class CommentForm(forms.ModelForm):

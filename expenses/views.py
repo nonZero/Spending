@@ -1,6 +1,5 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.http.response import HttpResponseNotFound, Http404
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 
@@ -10,7 +9,9 @@ from . import models
 
 @login_required
 def list_months(request):
-    qs = models.Expense.objects.dates('date', 'month').order_by('-date')
+    qs = models.Expense.objects.filter(
+        user=request.user
+    ).dates('date', 'month').order_by('-date')
     return render(request, "expenses/expense_months.html", {
         'dates': qs,
     })
@@ -18,7 +19,7 @@ def list_months(request):
 
 @login_required
 def list(request, year=None, month=None):
-    qs = models.Expense.objects.all()
+    qs = models.Expense.objects.filter(user=request.user)
     if year:
         qs = qs.filter(date__year=year)
     if month:
@@ -35,7 +36,7 @@ def list(request, year=None, month=None):
 
 @login_required
 def detail(request, id):
-    o = get_object_or_404(models.Expense, id=id)
+    o = get_object_or_404(models.Expense, id=id, user=request.user)
     if request.method == "POST":
         form = CommentForm(request.POST)
         if form.is_valid():
@@ -61,6 +62,7 @@ def create(request):
     if request.method == "POST":
         form = ExpenseForm(request.POST)
         if form.is_valid():
+            form.instance.user = request.user
             o = form.save()
             return redirect(reverse("expenses:detail", args=(o.id,)))
     else:
@@ -70,9 +72,10 @@ def create(request):
         'form': form,
     })
 
+
 @login_required
 def update(request, id):
-    o = get_object_or_404(models.Expense, id=id)
+    o = get_object_or_404(models.Expense, id=id, user=request.user)
     if request.method == "POST":
         form = ExpenseForm(request.POST, request.FILES, instance=o)
         if form.is_valid():
@@ -85,9 +88,10 @@ def update(request, id):
         'form': form,
     })
 
+
 @login_required
 def delete(request, id):
-    o = get_object_or_404(models.Expense, id=id)
+    o = get_object_or_404(models.Expense, id=id, user=request.user)
 
     if request.method == "POST":
         o.delete()

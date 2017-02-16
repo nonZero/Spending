@@ -1,11 +1,18 @@
+from django.contrib.auth.models import User
 from django.test import TestCase
 from . import models
 
 
 class ExpensesTests(TestCase):
+    def setUp(self):
+        self.users = [
+            User.objects.create(username='user{}'.format(i))
+            for i in range(1, 5)
+            ]
 
     def create_expense(self):
         o = models.Expense(
+            user = self.users[0],
             date="2012-04-22",
             amount="15.23",
             title="Pizza",
@@ -19,7 +26,7 @@ class ExpensesTests(TestCase):
     def test_basic_expense(self):
         n = models.Expense.objects.count()
         o = self.create_expense()
-        self.assertEquals(n + 1,  models.Expense.objects.count())
+        self.assertEquals(n + 1, models.Expense.objects.count())
         o.delete()
 
     def test_comments(self):

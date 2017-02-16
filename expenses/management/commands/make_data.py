@@ -2,6 +2,7 @@ import datetime
 import random
 
 import silly
+from django.contrib.auth.models import User
 from django.core.management.base import BaseCommand
 
 from expenses import models
@@ -35,8 +36,19 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         n = options['n']
+
+        users = []
+        for i in range(1, 6):
+            user, created = User.objects.get_or_create(
+                username='user{}'.format(i),
+            )
+            user.set_password("secret1234")
+            user.save()
+            users.append(user)
+
         for i in range(n):
             o = models.Expense(
+                user=random.choice(users),
                 date=get_random_date(),
                 amount="{:.2f}".format(random.uniform(1, 100)),
                 title="{} {}".format(silly.adjective(), silly.noun()).title(),
