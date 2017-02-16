@@ -1,4 +1,5 @@
-from django.shortcuts import render, redirect
+from django.http.response import HttpResponseNotFound, Http404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 
 from expenses.forms import ExpenseForm, FeebackForm
@@ -29,7 +30,11 @@ def list(request, year=None, month=None):
 
 
 def detail(request, id):
-    o = models.Expense.objects.get(id=id)
+    o = get_object_or_404(models.Expense, id=id)
+    # try:
+    #     o = models.Expense.objects.get(id=id)
+    # except models.Expense.DoesNotExist:
+    #     raise Http404()
     return render(request, "expenses/expense_detail.html", {
         'object': o,
     })
@@ -43,6 +48,21 @@ def create(request):
             return redirect(reverse("expenses:detail", args=(o.id,)))
     else:
         form = ExpenseForm()
+
+    return render(request, "expenses/expense_form.html", {
+        'form': form,
+    })
+
+
+def update(request, id):
+    o = get_object_or_404(models.Expense, id=id)
+    if request.method == "POST":
+        form = ExpenseForm(request.POST, request.FILES, instance=o)
+        if form.is_valid():
+            o = form.save()
+            return redirect(reverse("expenses:detail", args=(o.id,)))
+    else:
+        form = ExpenseForm(instance=o)
 
     return render(request, "expenses/expense_form.html", {
         'form': form,

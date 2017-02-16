@@ -2,7 +2,14 @@
 
 {% block content %}
 
-    <h1>Expense #{{ object.id }}</h1>
+
+    <a class="btn btn-primary pull-right" href="{% url "expenses:update" object.id %}"><span
+            class="glyphicon glyphicon-pencil"></span> Edit</a>
+    <h1>
+
+
+        Expense #{{ object.id }}
+    </h1>
     <ul>
         <li>
             <b>Title</b>: {{ object.title }}
