@@ -81,6 +81,20 @@ def update(request, id):
     })
 
 
+def delete(request, id):
+    o = get_object_or_404(models.Expense, id=id)
+
+    if request.method == "POST":
+        o.delete()
+        messages.success(request,
+                         "Expense #{} deleted successfully.".format(id))
+        return redirect(reverse("expenses:list"))
+
+    return render(request, "expenses/expense_confirm_delete.html", {
+        'object': o,
+    })
+
+
 def send_feedback(request):
     if request.method == "POST":
         form = FeebackForm(request.POST)

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load bootstrap3 %}
+
+{% block title %}
+    Confirm Delete Expense #{{ object.id }}
+{% endblock %}
+
+{% block content %}
+
+    <h1>
+        Confirm Delete Expense #{{ object.id }}?
+    </h1>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% buttons %}
+            <button type="submit" class="btn btn-danger">
+                {% bootstrap_icon "trash" %} Delete
+            </button>
+        {% endbuttons %}
+    </form>
+
+{% endblock %}
+
+
