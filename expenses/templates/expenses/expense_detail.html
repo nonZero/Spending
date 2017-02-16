@@ -18,6 +18,12 @@
                 <b>Description</b>: {{ object.description|linebreaksbr }}
             </li>
         {% endif %}
+        {% if object.picture %}
+            <div class="thumbnail">
+                <img src="{{ object.picture.url }}" alt="">
+            </div>
+            </li>
+        {% endif %}
 
     </ul>
 {% endblock %}
