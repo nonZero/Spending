@@ -1,9 +1,23 @@
+import datetime
 import random
 
 import silly
 from django.core.management.base import BaseCommand
 
 from expenses import models
+
+
+def get_random_date():
+    while True:
+        try:
+            return datetime.date(
+                random.randint(2010, 2019),
+                random.randint(1, 12),
+                random.randint(1, 30)
+            )
+        except ValueError:
+            # non existent date
+            pass
 
 
 class Command(BaseCommand):
@@ -16,11 +30,7 @@ class Command(BaseCommand):
         n = options['n']
         for i in range(n):
             o = models.Expense(
-                date="201{}-{:02}-{}".format(
-                    random.randint(0, 9),
-                    random.randint(1, 12),
-                    random.randint(1, 30)
-                ),
+                date=get_random_date(),
                 amount="{:.2f}".format(random.uniform(1, 100)),
                 title="{} {}".format(silly.adjective(), silly.noun()).title(),
                 description=silly.paragraph(length=random.randint(1, 3)),

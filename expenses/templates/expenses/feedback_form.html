@@ -1,13 +1,20 @@
-<h1>
-    Send Feedback
-</h1>
+{% extends "base.html" %}
+{% load bootstrap3 %}
 
-<form method="post" novalidate="1">
-    {% csrf_token %}
-    <ul>
-        {{ form.as_ul }}
-        <li>
-            <button>Send Feedback</button>
-        </li>
-    </ul>
-</form>
+{% block content %}
+
+    <h1>
+        Send Feedback
+    </h1>
+
+    <form method="post" novalidate="1">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        {% buttons %}
+            <button type="submit" class="btn btn-primary">
+                {% bootstrap_icon "envelope" %} Send
+            </button>
+        {% endbuttons %}
+    </form>
+
+{% endblock %}
