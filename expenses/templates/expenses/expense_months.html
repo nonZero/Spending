@@ -1,13 +1,22 @@
-<h1>
-    Expenses By Month
-</h1>
+{% extends "base.html" %}
 
-<ul>
-    {% for date in dates %}
-        <li>
-            <a href="{% url "expenses:month" date.year date.month %}">
-                {{ date.year }}-{{ date.month }}
-            </a>
-        </li>
-    {% endfor %}
-</ul>
+{% block title %}
+    By Month
+{% endblock %}
+
+{% block content %}
+
+    <h1>
+        Expenses By Month
+    </h1>
+
+    <ul>
+        {% for date in dates %}
+            <li>
+                <a href="{% url "expenses:month" date.year date.month %}">
+                    {{ date.year }}-{{ date.month }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

@@ -1,0 +1,29 @@
+<html>
+<head>
+    <title>{% block title %}Home{% endblock %} - Spending.COM !!!!</title>
+</head>
+<body>
+
+<header>
+    <h1>
+        Spending.COM!!!
+    </h1>
+</header>
+<nav>
+    <a href="{% url "expenses:list" %}">Home</a>
+    |
+    <a href="{% url "expenses:months" %}">By Month</a>
+    |
+    <a href="{% url "expenses:create" %}">Add Expense...</a>
+</nav>
+
+<div>
+    {% block content %}
+    MY CONTENT SHOULD GO HERE
+    {% endblock %}
+</div>
+
+<hr/>
+&copy; Copyright 2017
+</body>
+</html>

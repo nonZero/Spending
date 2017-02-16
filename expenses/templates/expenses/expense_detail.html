@@ -1,21 +1,23 @@
-<h1>Expense #{{ object.id }}</h1>
-<ul>
-    <li>
-        <b>Title</b>: {{ object.title }}
-    </li>
-    <li>
-        <b>Date</b>: {{ object.date }}
-    </li>
-    <li>
-        <b>Amount</b>: ${{ object.amount }}
-    </li>
-    {% if object.description %}
-        <li>
-            <b>Description</b>: {{ object.description|linebreaksbr }}
-        </li>
-    {% endif %}
-    <li>
-        <a href="{% url "expenses:list" %}">Back to all expenses</a>
-    </li>
+{% extends "base.html" %}
 
-</ul>
+{% block content %}
+
+    <h1>Expense #{{ object.id }}</h1>
+    <ul>
+        <li>
+            <b>Title</b>: {{ object.title }}
+        </li>
+        <li>
+            <b>Date</b>: {{ object.date }}
+        </li>
+        <li>
+            <b>Amount</b>: ${{ object.amount }}
+        </li>
+        {% if object.description %}
+            <li>
+                <b>Description</b>: {{ object.description|linebreaksbr }}
+            </li>
+        {% endif %}
+
+    </ul>
+{% endblock %}

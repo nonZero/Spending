@@ -21,6 +21,8 @@ def list(request, year=None, month=None):
     total = sum(
         o.amount for o in qs)  # there is a better way to do this (aggregation)
     return render(request, "expenses/expense_list.html", {
+        'year': year,
+        'month': month,
         'total': total,
         'objects': qs,
     })

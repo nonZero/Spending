@@ -1,13 +1,25 @@
-<h1>
-    Add New Expense
-</h1>
+{% extends "base.html" %}
 
-<form method="post">
-    {% csrf_token %}
-    <ul>
-        {{ form.as_ul }}
-        <li>
-            <button>Add</button>
-        </li>
-    </ul>
-</form>
+{% block title %}
+    Add Expense
+{% endblock %}
+
+{% block content %}
+
+    <h1>
+        Add New Expense
+    </h1>
+
+    <form method="post">
+        {% csrf_token %}
+        <ul>
+            {{ form.as_ul }}
+            <li>
+                <button>Add</button>
+            </li>
+        </ul>
+    </form>
+
+{% endblock %}
+
+
