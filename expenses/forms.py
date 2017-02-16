@@ -9,6 +9,12 @@ class ExpenseForm(forms.ModelForm):
         fields = "__all__"
 
 
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = models.Comment
+        fields = "__all__"
+
+
 class FeebackForm(forms.Form):
     email = forms.EmailField()
     subject = forms.CharField()

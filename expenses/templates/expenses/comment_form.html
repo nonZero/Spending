@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load bootstrap3 %}
+
+{% block title %}
+    Add Comment
+{% endblock %}
+
+{% block content %}
+
+    <h1>
+        {% if form.instance.id %}
+            Edit Comment #{{ form.instance.id }}
+        {% else %}
+            Add New Comment
+        {% endif %}
+    </h1>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <ul>
+            {% bootstrap_form form %}
+            {% buttons %}
+                <button type="submit" class="btn btn-primary">
+                    {% bootstrap_icon "save" %} Add
+                </button>
+            {% endbuttons %}
+        </ul>
+    </form>
+
+{% endblock %}
+
+

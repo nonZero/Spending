@@ -2,7 +2,7 @@ from django.http.response import HttpResponseNotFound, Http404
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 
-from expenses.forms import ExpenseForm, FeebackForm
+from expenses.forms import ExpenseForm, FeebackForm, CommentForm
 from . import models
 
 
@@ -65,6 +65,20 @@ def update(request, id):
         form = ExpenseForm(instance=o)
 
     return render(request, "expenses/expense_form.html", {
+        'form': form,
+    })
+
+
+def create_comment(request):
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            o = form.save()
+            return redirect(o.expense)
+    else:
+        form = CommentForm()
+
+    return render(request, "expenses/comment_form.html", {
         'form': form,
     })
 

@@ -39,6 +39,11 @@
                 {{ comment.content|linebreaks }}
             </li>
         {% endfor %}
+            <li class="list-group-item">
+                <a class="btn btn-primary btn-block" href="{% url "expenses:create_comment" %}"><span
+                class="glyphicon glyphicon-paper"></span> Create Comment</a>
+            </li>
+
     </ul>
 
 
