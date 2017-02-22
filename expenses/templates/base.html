@@ -23,11 +23,28 @@
         <div class="collapse navbar-collapse"
              id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li><a href="{% url "expenses:months" %}">By Month</a>
+                <li>
+                    <a href="{% url "expenses:months" %}">By Month</a>
                 </li>
-                <li><a href="{% url "expenses:create" %}">Add
-                    Expense...</a></li>
+                <li>
+                    <a href="{% url "expenses:create" %}">
+                        Add Expense...
+                    </a>
+                </li>
 
+            </ul>
+            <form action="{% url "expenses:list" %}"
+                  class="navbar-form navbar-left">
+                <div class="form-group">
+                    <input type="text" class="form-control"
+                           value="{{ term|default:"" }}"
+                           placeholder="Search" name="q">
+                </div>
+                <button type="submit" class="btn btn-default"><span
+                        class="glyphicon glyphicon-search"></span> Search
+                </button>
+            </form>
+            <ul class="nav navbar-nav navbar-right">
                 {% if user.id %}
                     <li>
                         <span class="navbar-text">
@@ -42,20 +59,8 @@
                         <a href="{% url "login" %}">Login</a>
                     </li>
                 {% endif %}
-
-                </li>
             </ul>
-            <form action="{% url "expenses:list" %}"
-                  class="navbar-form navbar-right">
-                <div class="form-group">
-                    <input type="text" class="form-control"
-                           value="{{ term|default:"" }}"
-                           placeholder="Search" name="q">
-                </div>
-                <button type="submit" class="btn btn-default"><span
-                        class="glyphicon glyphicon-search"></span> Search
-                </button>
-            </form>
+
         </div>
     </div>
 </nav>
