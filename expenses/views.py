@@ -147,9 +147,9 @@ def detail(request, id):
 #     })
 #
 
-class ExpenseCreateView(LoginRequiredMixin, CreateView):
-    model = models.Expense
+class ExpenseEditView(LoginRequiredMixin):
     form_class = ExpenseForm
+    model = models.Expense
 
     def get_form(self, form_class=None):
         form = super().get_form(form_class)
@@ -159,24 +159,19 @@ class ExpenseCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.user = self.request.user
         resp = super().form_valid(form)
-        messages.success(self.request, "Expense added!!!!!!")
+        messages.success(self.request, self.message)
         return resp
 
 
-class ExpenseUpdateView(LoginRequiredMixin, UpdateView):
-    model = models.Expense
-    form_class = ExpenseForm
+class ExpenseCreateView(ExpenseEditView, CreateView):
+    message = "Expense created!!!!!!"
 
-    def get_form(self, form_class=None):
-        form = super().get_form(form_class)
-        form.fields['categories'].queryset = self.request.user.categories.all()
-        return form
 
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        resp = super().form_valid(form)
-        messages.success(self.request, "Expense updated!!!!!!")
-        return resp
+class ExpenseUpdateView(ExpenseEditView, UpdateView):
+    message = "Expense updated!!!!!!"
+
+    def get_queryset(self):
+        return super().get_queryset().filter(user=self.request.user)
 
 
 # @login_required
