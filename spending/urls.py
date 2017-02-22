@@ -19,9 +19,19 @@ from django.contrib import admin
 from django.conf.urls.static import static
 from django.conf import settings
 
+from rest_framework import routers
+import expenses.api_views
+
+router = routers.DefaultRouter()
+router.register(r'expense', expenses.api_views.ExpenseViewSet)
+
+
 urlpatterns = [
                   url(r'^', include('expenses.urls')),
                   url(r'^', include('django.contrib.auth.urls')),
 
                   url(r'^admin/', admin.site.urls),
+
+                  url(r'^api/', include(router.urls)),
+
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
