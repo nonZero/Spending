@@ -7,7 +7,9 @@ from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
+from django.urls import reverse_lazy
 from django.views import View
+from django.views.generic import FormView
 from django.views.generic import TemplateView
 
 from expenses.forms import ExpenseForm, FeebackForm, CommentForm
@@ -175,15 +177,25 @@ def delete(request, id):
     })
 
 
-def send_feedback(request):
-    if request.method == "POST":
-        form = FeebackForm(request.POST)
-        if form.is_valid():
-            print("feeback sent", form.cleaned_data)
-            return redirect(reverse("expenses:list"))
-    else:
-        form = FeebackForm()
+# def send_feedback(request):
+#     if request.method == "POST":
+#         form = FeebackForm(request.POST)
+#         if form.is_valid():
+#             print("feeback sent", form.cleaned_data)
+#             return redirect(reverse("expenses:list"))
+#     else:
+#         form = FeebackForm()
+#
+#     return render(request, "expenses/feedback_form.html", {
+#         'form': form,
+#     })
+#
 
-    return render(request, "expenses/feedback_form.html", {
-        'form': form,
-    })
+class FeedbackView(FormView):
+    form_class = FeebackForm
+    template_name = "expenses/feedback_form.html"
+    success_url = reverse_lazy("expenses:list")
+
+    def form_valid(self, form):
+        messages.success(self.request, "Feedback Sent!!!!!!")
+        return super().form_valid(form)
