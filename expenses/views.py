@@ -11,7 +11,9 @@ from django.urls import reverse
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import CreateView
+from django.views.generic import DetailView
 from django.views.generic import FormView
+from django.views.generic import ListView
 from django.views.generic import TemplateView
 from django.views.generic import UpdateView
 
@@ -106,6 +108,40 @@ def list(request, year=None, month=None):
     })
 
 
+class ExpenseListView(LoginRequiredMixin, ListView):
+    model = models.Expense
+    paginate_by = 20
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+
+        qs = qs.filter(user=self.request.user)
+        self.year = self.kwargs.get('year')
+        self.month = self.kwargs.get('month')
+
+        if self.year:
+            qs = qs.filter(date__year=self.year)
+        if self.month:
+            qs = qs.filter(date__month=self.month)
+
+        term = self.request.GET.get('q')
+        if term:
+            q = Q(
+                title__icontains=term
+            ) | Q(
+                description__icontains=term
+            )
+            try:
+                q |= Q(amount=decimal.Decimal(term))
+            except decimal.InvalidOperation:
+                pass
+            if term.isdigit():
+                q |= Q(amount__gte=int(term), amount__lt=int(term) + 1)
+            qs = qs.filter(q)
+
+        return qs
+
+
 @login_required
 def detail(request, id):
     o = get_object_or_404(models.Expense, id=id, user=request.user)
@@ -127,6 +163,13 @@ def detail(request, id):
         'object': o,
         'form': form,
     })
+
+
+class ExpenseDetailView(DetailView):
+    model = models.Expense
+
+    def get_queryset(self):
+        return super().get_queryset().filter(user=self.request.user)
 
 
 # @login_required
