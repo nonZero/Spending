@@ -1,3 +1,5 @@
+import decimal
+
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
@@ -31,9 +33,11 @@ def list(request, year=None, month=None):
             title__icontains=term
         ) | Q(
             description__icontains=term
-        ) | Q(
-            amount=term
         )
+        try:
+            q |= Q(amount=decimal.Decimal(term))
+        except decimal.InvalidOperation:
+            pass
         if term.isdigit():
             q |= Q(amount__gte=int(term), amount__lt=int(term) + 1)
         qs = qs.filter(q)
@@ -45,6 +49,7 @@ def list(request, year=None, month=None):
         'month': month,
         'total': total,
         'objects': qs,
+        'term': term,
     })
 
 
