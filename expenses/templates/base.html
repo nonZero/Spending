@@ -47,8 +47,7 @@
 
                     </li>
                 </ul>
-                {# fixme: use  {% url %} below #}
-                <form action="/search/" class="navbar-form navbar-right">
+                <form action="{% url "expenses:list" %}" class="navbar-form navbar-right">
                     <div class="form-group">
                         <input type="text" class="form-control"
                                placeholder="Search" name="q">

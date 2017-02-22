@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 
@@ -24,6 +25,19 @@ def list(request, year=None, month=None):
         qs = qs.filter(date__year=year)
     if month:
         qs = qs.filter(date__month=month)
+    term = request.GET.get('q')
+    if term:
+        q = Q(
+            title__icontains=term
+        ) | Q(
+            description__icontains=term
+        ) | Q(
+            amount=term
+        )
+        if term.isdigit():
+            q |= Q(amount__gte=int(term), amount__lt=int(term) + 1)
+        qs = qs.filter(q)
+
     total = sum(
         o.amount for o in qs)  # there is a better way to do this (aggregation)
     return render(request, "expenses/expense_list.html", {
