@@ -3,14 +3,17 @@ import decimal
 import time
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.urls import reverse_lazy
 from django.views import View
+from django.views.generic import CreateView
 from django.views.generic import FormView
 from django.views.generic import TemplateView
+from django.views.generic import UpdateView
 
 from expenses.forms import ExpenseForm, FeebackForm, CommentForm
 from . import models
@@ -126,40 +129,74 @@ def detail(request, id):
     })
 
 
-@login_required
-def create(request):
-    if request.method == "POST":
-        form = ExpenseForm(request.POST)
-        form.fields['categories'].queryset = request.user.categories.all()
-        if form.is_valid():
-            form.instance.user = request.user
-            o = form.save()
-            return redirect(reverse("expenses:detail", args=(o.id,)))
-    else:
-        form = ExpenseForm()
-        form.fields['categories'].queryset = request.user.categories.all()
+# @login_required
+# def create(request):
+#     if request.method == "POST":
+#         form = ExpenseForm(request.POST)
+#         form.fields['categories'].queryset = request.user.categories.all()
+#         if form.is_valid():
+#             form.instance.user = request.user
+#             o = form.save()
+#             return redirect(reverse("expenses:detail", args=(o.id,)))
+#     else:
+#         form = ExpenseForm()
+#         form.fields['categories'].queryset = request.user.categories.all()
+#
+#     return render(request, "expenses/expense_form.html", {
+#         'form': form,
+#     })
+#
 
-    return render(request, "expenses/expense_form.html", {
-        'form': form,
-    })
+class ExpenseCreateView(LoginRequiredMixin, CreateView):
+    model = models.Expense
+    form_class = ExpenseForm
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['categories'].queryset = self.request.user.categories.all()
+        return form
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        resp = super().form_valid(form)
+        messages.success(self.request, "Expense added!!!!!!")
+        return resp
 
 
-@login_required
-def update(request, id):
-    o = get_object_or_404(models.Expense, id=id, user=request.user)
-    if request.method == "POST":
-        form = ExpenseForm(request.POST, request.FILES, instance=o)
-        form.fields['categories'].queryset = request.user.categories.all()
-        if form.is_valid():
-            o = form.save()
-            return redirect(reverse("expenses:detail", args=(o.id,)))
-    else:
-        form = ExpenseForm(instance=o)
-        form.fields['categories'].queryset = request.user.categories.all()
+class ExpenseUpdateView(LoginRequiredMixin, UpdateView):
+    model = models.Expense
+    form_class = ExpenseForm
 
-    return render(request, "expenses/expense_form.html", {
-        'form': form,
-    })
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['categories'].queryset = self.request.user.categories.all()
+        return form
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        resp = super().form_valid(form)
+        messages.success(self.request, "Expense updated!!!!!!")
+        return resp
+
+
+# @login_required
+# def update(request, id):
+#     o = get_object_or_404(models.Expense, id=id, user=request.user)
+#     if request.method == "POST":
+#         form = ExpenseForm(request.POST, request.FILES, instance=o)
+#         form.fields['categories'].queryset = request.user.categories.all()
+#         if form.is_valid():
+#             o = form.save()
+#             return redirect(reverse("expenses:detail", args=(o.id,)))
+#     else:
+#         form = ExpenseForm(instance=o)
+#         form.fields['categories'].queryset = request.user.categories.all()
+#
+#     return render(request, "expenses/expense_form.html", {
+#         'form': form,
+#     })
+
+
 
 
 @login_required
