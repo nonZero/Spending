@@ -165,11 +165,11 @@ def detail(request, id):
     })
 
 
-class ExpenseDetailView(DetailView):
-    model = models.Expense
-
-    def get_queryset(self):
-        return super().get_queryset().filter(user=self.request.user)
+# class ExpenseDetailView(DetailView):
+#     model = models.Expense
+#
+#     def get_queryset(self):
+#         return super().get_queryset().filter(user=self.request.user)
 
 
 # @login_required
@@ -274,3 +274,7 @@ class FeedbackView(FormView):
     def form_valid(self, form):
         messages.success(self.request, "Feedback Sent!!!!!!")
         return super().form_valid(form)
+
+
+class PlaygroundView(TemplateView):
+    template_name = "playground.html"
