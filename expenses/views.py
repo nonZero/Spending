@@ -1,13 +1,61 @@
 import decimal
 
+import time
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
+from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
+from django.views import View
+from django.views.generic import TemplateView
 
 from expenses.forms import ExpenseForm, FeebackForm, CommentForm
 from . import models
+
+
+# def my_view(request):
+#     return HttpResponse("Shalom")
+
+
+# class MyView(View):
+#     def get(self, request):
+#         return HttpResponse("Shalom")
+#
+#     # def post(self, request):
+#     #     return HttpResponse("Shalom")
+
+def my_view(request):
+    return render(request, "my.html", {
+        'colors': ['red', 'green', 'blue'],
+        'result': time.time() // 100,
+    })
+
+
+class MyView(TemplateView):
+    template_name = "my.html"
+
+    colors = ['red', 'green', 'blue']
+
+    def result(self):
+        return time.time() % 100 // 1
+
+    def get_context_data(self, **kwargs):
+        d = super().get_context_data(bar=456, **kwargs)
+        d['foo'] = 123
+        return d
+
+
+# !!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# class ExpenseListView(ListView):
+#     model = models.Expense
+#
+# class CategoryListView(ListView):
+#     model = models.Category
+#
+# class CommentListView(ListView):
+#     model = models.Comment
+
 
 
 @login_required
