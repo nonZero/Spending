@@ -12,53 +12,55 @@
 </head>
 <body>
 
-<div class="container">
-    <nav class="navbar navbar-inverse">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="{% url "expenses:list" %}">
-                    💰 Spending.COM!!!
-                </a>
-            </div>
+<nav class="navbar navbar-inverse">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="{% url "expenses:list" %}">
+                💰 Spending.COM!!!
+            </a>
+        </div>
 
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse"
-                 id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                    <li><a href="{% url "expenses:months" %}">By Month</a>
-                    </li>
-                    <li><a href="{% url "expenses:create" %}">Add
-                        Expense...</a></li>
+        <div class="collapse navbar-collapse"
+             id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href="{% url "expenses:months" %}">By Month</a>
+                </li>
+                <li><a href="{% url "expenses:create" %}">Add
+                    Expense...</a></li>
 
-                    {% if user.id %}
-                        <li>
+                {% if user.id %}
+                    <li>
                         <span class="navbar-text">
                             {{ user }}
                         </span>
-                        </li>
-                        <li>
-                            <a href="{% url "logout" %}">Logout</a>
-                        </li>
-                    {% else %}
-                        <li>
-                            <a href="{% url "login" %}">Login</a>
-                        </li>
-                    {% endif %}
-
                     </li>
-                </ul>
-                <form action="{% url "expenses:list" %}" class="navbar-form navbar-right">
-                    <div class="form-group">
-                        <input type="text" class="form-control"
-                               placeholder="Search" name="q">
-                    </div>
-                    <button type="submit" class="btn btn-default">Submit
-                    </button>
-                </form>
-            </div><!-- /.navbar-collapse -->
-        </div><!-- /.container-fluid -->
-    </nav>
+                    <li>
+                        <a href="{% url "logout" %}">Logout</a>
+                    </li>
+                {% else %}
+                    <li>
+                        <a href="{% url "login" %}">Login</a>
+                    </li>
+                {% endif %}
 
+                </li>
+            </ul>
+            <form action="{% url "expenses:list" %}"
+                  class="navbar-form navbar-right">
+                <div class="form-group">
+                    <input type="text" class="form-control"
+                           value="{{ term|default:"" }}"
+                           placeholder="Search" name="q">
+                </div>
+                <button type="submit" class="btn btn-default"><span
+                        class="glyphicon glyphicon-search"></span> Search
+                </button>
+            </form>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
     <div id="main">
 
         {% bootstrap_messages %}
