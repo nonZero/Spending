@@ -27,6 +27,10 @@
     <ul>
         <li>
             <b>Title</b>: {{ object.title }}
+            {% for category in object.categories.all %}
+                <span class="label label-info">{{ category.name }}</span>
+            {% endfor %}
+
         </li>
         <li>
             <b>Date</b>: {{ object.date }}

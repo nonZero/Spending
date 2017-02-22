@@ -4,6 +4,12 @@ from expenses import models
 
 
 class ExpenseForm(forms.ModelForm):
+
+    # def __init__(self, user, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    #     self.fields['categories'].queryset = user.categories.all()
+
+
     class Meta:
         model = models.Expense
         exclude = (

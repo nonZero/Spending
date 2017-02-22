@@ -80,12 +80,14 @@ def detail(request, id):
 def create(request):
     if request.method == "POST":
         form = ExpenseForm(request.POST)
+        form.fields['categories'].queryset = request.user.categories.all()
         if form.is_valid():
             form.instance.user = request.user
             o = form.save()
             return redirect(reverse("expenses:detail", args=(o.id,)))
     else:
         form = ExpenseForm()
+        form.fields['categories'].queryset = request.user.categories.all()
 
     return render(request, "expenses/expense_form.html", {
         'form': form,
@@ -97,11 +99,13 @@ def update(request, id):
     o = get_object_or_404(models.Expense, id=id, user=request.user)
     if request.method == "POST":
         form = ExpenseForm(request.POST, request.FILES, instance=o)
+        form.fields['categories'].queryset = request.user.categories.all()
         if form.is_valid():
             o = form.save()
             return redirect(reverse("expenses:detail", args=(o.id,)))
     else:
         form = ExpenseForm(instance=o)
+        form.fields['categories'].queryset = request.user.categories.all()
 
     return render(request, "expenses/expense_form.html", {
         'form': form,

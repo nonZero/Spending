@@ -24,6 +24,10 @@
         {% for object in objects %}
             <li>
                 <a href="{% url "expenses:detail" object.id %}">{{ object.date }}: {{ object.amount }} {{ object.title }}</a>
+                {% for category in object.categories.all %}
+                    <span class="label label-info">{{ category.name }}</span>
+                {% endfor %}
+
             </li>
         {% endfor %}
     </ul>

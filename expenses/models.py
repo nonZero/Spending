@@ -7,6 +7,22 @@ from django.utils.six import python_2_unicode_compatible
 
 
 @python_2_unicode_compatible
+class Category(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             related_name='categories',
+                             on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+
+    class Meta:
+        unique_together = (
+            ('user', 'name'),
+        )
+
+    def __str__(self):
+        return self.name
+
+
+@python_2_unicode_compatible
 class Expense(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='expenses',
                              on_delete=models.CASCADE)
@@ -15,6 +31,9 @@ class Expense(models.Model):
     title = models.CharField(max_length=200, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
     picture = models.ImageField(upload_to="expenses/", null=True, blank=True)
+
+    categories = models.ManyToManyField(Category, related_name='expenses',
+                                        blank=True)
 
     def __str__(self):
         return "[#{}] ${} @{} {}".format(
